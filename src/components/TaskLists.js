@@ -4,17 +4,18 @@ import Task from './Task'
 export default function TaskLists({ tasks,onToggleCompletion, onDelete, onStartEditing, onSaveDescription }) {
   return (
     <ul className="todo-list">
-      {tasks.map((task, index) => (
+      {tasks.map((task, id) => (
         <Task
-          key={index}
+          key={task.id}
           description={task.description}
           created={task.created}
           completed={task.completed}
           editing={task.editing}
-          onToggleCompletion={() => onToggleCompletion(index)}
-          onDelete={() => onDelete(index)}
-          onStartEditing={() => onStartEditing(index)}
-          onSaveDescription={(newDescription) => onSaveDescription(index, newDescription)}
+          onToggleCompletion={() => onToggleCompletion(task.id)} // Pass task.id
+          onDelete={() => onDelete(task.id)} // Pass task.id
+          onStartEditing={() => onStartEditing(task.id)} // Pass task.id
+          onSaveDescription={(newDescription) =>
+            onSaveDescription(task.id, newDescription)}
         />
       ))}
     </ul>

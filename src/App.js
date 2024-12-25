@@ -14,6 +14,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         const formattedTasks = data.slice(0, 20).map((task) => ({
+          id: task.id,
           description: task.title,
           created: new Date(), 
           completed: task.completed,
@@ -32,36 +33,37 @@ function App() {
     return true;
   });
 
-  const toggleTaskCompletion = (index) => {
+  const toggleTaskCompletion = (id) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task, i) =>
-        i === index ? { ...task, completed: !task.completed } : task
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
   };
 
-  const deleteTask = (index) => {
-    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  const deleteTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
-  const startEditingTask = (index) => {
+  const startEditingTask = (id) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task, i) =>
-        i === index ? { ...task, editing: true } : task
+      prevTasks.map((task) =>
+        task.id === id? { ...task, editing: true } : task
       )
     );
   };
 
-  const saveTaskDescription = (index, newDescription) => {
+  const saveTaskDescription = (id, newDescription) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task, i) =>
-        i === index ? { ...task, description: newDescription, editing: false } : task
+      prevTasks.map((task) =>
+         task.id === id ? { ...task, description: newDescription, editing: false } : task
       )
     );
   };
 
   const addTask = (description) => {
     const newTask = {
+      id: Date.now(),
       description,
       created: new Date(),
       completed: false,
